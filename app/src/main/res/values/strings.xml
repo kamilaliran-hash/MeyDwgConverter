@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">MeyDwgConverter</string>
+    <string name="tagline">Offline AutoCAD DWG version converter</string>
+    <string name="pick_file">Choose DWG file</string>
+    <string name="no_file">No file selected</string>
+    <string name="convert">Convert &amp; Save</string>
+    <string name="save_as">Save as</string>
+    <string name="about_title">About</string>
+    <string name="developer">Developed by Kamil</string>
+    <string name="note">Works offline using LibreDWG. Newer drawings (2004–2018) can be saved down to DWG R2000 or to DXF. R13/R14 output is experimental. Always check the result in your CAD program.</string>
+</resources>

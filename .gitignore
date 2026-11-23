@@ -1,0 +1,7 @@
+build/
+.gradle/
+local.properties
+build-libredwg/
+app/src/main/cpp/libredwg/
+*.iml
+.idea/
