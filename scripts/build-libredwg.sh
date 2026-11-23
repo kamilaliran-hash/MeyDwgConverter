@@ -50,7 +50,7 @@ build_abi() {
   "$SRC/configure" \
     --host="$host" \
     --disable-shared --enable-static --with-pic \
-    --disable-bindings --disable-python
+    --disable-bindings --disable-python --disable-werror
 
   # Only the library is needed, not the command-line tools or docs.
   make -C src -j"$JOBS"
