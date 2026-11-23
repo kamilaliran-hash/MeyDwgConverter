@@ -58,6 +58,10 @@ build_abi() {
   mkdir -p "$DEST/$abi/lib" "$DEST/$abi/include"
   cp src/.libs/libredwg.a "$DEST/$abi/lib/"
   cp "$SRC/include/dwg.h" "$SRC/include/dwg_api.h" "$DEST/$abi/include/"
+  # Internal headers (needed for the DXF writer, as LibreDWG's dwg2dxf uses it)
+  mkdir -p "$DEST/$abi/include/internal"
+  cp "$SRC"/src/*.h "$DEST/$abi/include/internal/"
+  cp src/config.h "$DEST/$abi/include/internal/"
   cd "$WORK"
 }
 

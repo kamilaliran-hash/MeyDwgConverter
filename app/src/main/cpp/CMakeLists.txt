@@ -15,5 +15,7 @@ set_target_properties(redwg PROPERTIES
   IMPORTED_LOCATION ${LIBREDWG_DIR}/lib/libredwg.a)
 
 add_library(dwgconv SHARED dwgconv.c)
-target_include_directories(dwgconv PRIVATE ${LIBREDWG_DIR}/include)
+target_include_directories(dwgconv PRIVATE
+  ${LIBREDWG_DIR}/include
+  ${LIBREDWG_DIR}/include/internal)
 target_link_libraries(dwgconv redwg log m)

@@ -7,7 +7,26 @@
 #include <string.h>
 #include <android/log.h>
 
+#include "config.h"   /* LibreDWG internal: PACKAGE_VERSION etc. */
 #include <dwg.h>
+#include "bits.h"     /* Bit_Chain */
+#include "out_dxf.h"  /* dwg_write_dxf */
+
+/* Same steps as LibreDWG's programs/dwg2dxf.c */
+static int write_dxf(const char *path, Dwg_Data *dwg)
+{
+  Bit_Chain dat = { 0 };
+  dat.version = dwg->header.version;
+  dat.from_version = dwg->header.from_version;
+  dat.codepage = dwg->header.codepage;
+  dat.opts = dwg->opts;
+  dat.fh = fopen(path, "wb");
+  if (!dat.fh)
+    return DWG_ERR_IOERROR;
+  int err = dwg_write_dxf(&dat, dwg);
+  fclose(dat.fh);
+  return err;
+}
 
 #define TAG "dwgconv"
 #define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, TAG, __VA_ARGS__)
@@ -67,11 +86,9 @@ Java_com_example_dwgconverter_DwgNative_convert(JNIEnv *env, jclass clazz,
      Setting header.version selects the version to write. */
   dwg.header.version = version;
 
-#ifndef DISABLE_DXF
   if (asDxf)
-    err = dxf_write_file(out, &dwg);
+    err = write_dxf(out, &dwg);
   else
-#endif
     err = dwg_write_file(out, &dwg);
 
   if (err >= DWG_ERR_CRITICAL)
@@ -93,9 +110,5 @@ JNIEXPORT jstring JNICALL
 Java_com_example_dwgconverter_DwgNative_libVersion(JNIEnv *env, jclass clazz)
 {
   (void)clazz;
-#ifdef LIBREDWG_VERSION
-  return (*env)->NewStringUTF(env, LIBREDWG_VERSION);
-#else
-  return (*env)->NewStringUTF(env, "LibreDWG");
-#endif
+  return (*env)->NewStringUTF(env, "LibreDWG " PACKAGE_VERSION);
 }
